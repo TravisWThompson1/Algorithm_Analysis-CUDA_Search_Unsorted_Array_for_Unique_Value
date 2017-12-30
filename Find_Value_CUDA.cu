@@ -6,7 +6,6 @@
 #include <cuda_runtime.h>
 #include "cuComplex.h"
 
-
 // Define max number of concurrent threads
 #define MAX_BLOCKSIZE 512
 
@@ -95,7 +94,7 @@ int Strided_Offset_N_Search(int *dev_Array, int uniqueValue, int offset, int arr
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
     // Print event timing.
-    std::cout << "CUDA kernel :: Strided_Offset_N_Search :: " << milliseconds << "ms elapsed." << std::endl;
+    std::cout << "CUDA kernel :: Strided_Offset_N_Search :: offset = " << offset << " " << milliseconds << "ms elapsed." << std::endl;
 
     // Copy d_foundIndex device value back to host memory.
     cudaMemcpy(&foundIndex, dev_foundIndex, sizeof(int), cudaMemcpyDeviceToHost);
@@ -196,7 +195,7 @@ int Coalesced_N_Search(int *dev_Array, int uniqueValue, int numToCheck, int arra
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
     // Print event timing.
-    std::cout << "CUDA kernel :: Coalesced_N_Search :: " << milliseconds << "ms elapsed." << std::endl;
+    std::cout << "CUDA kernel :: Coalesced_N_Search :: N = " << numToCheck << " " << milliseconds << "ms elapsed." << std::endl;
 
     // Copy d_foundIndex device value back to host memory.
     cudaMemcpy(&foundIndex, dev_foundIndex, sizeof(int), cudaMemcpyDeviceToHost);
@@ -282,7 +281,7 @@ int Full_Coalesced_Search(int *dev_Array, int uniqueValue, int arraySize) {
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
     // Print event timing.
-    std::cout << "CUDA kernel :: Coalesced_N_Search :: " << milliseconds << "ms elapsed." << std::endl;
+    std::cout << "CUDA kernel :: Full_Coalesced_Search :: " << milliseconds << "ms elapsed." << std::endl;
 
     // Copy d_foundIndex device value back to host memory.
     cudaMemcpy(&foundIndex, dev_foundIndex, sizeof(int), cudaMemcpyDeviceToHost);
@@ -294,6 +293,9 @@ int Full_Coalesced_Search(int *dev_Array, int uniqueValue, int arraySize) {
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 
 
