@@ -1,6 +1,5 @@
 // C++ Libraries.
 #include <iostream>
-#include <fstream>
 
 // CUDA libraries.
 #include <cuda.h>
@@ -496,7 +495,7 @@ int main(){
     // Test multiple values of N, where N is the number of elements each thread will check.
     std::cout << "-- Unrolled Coalesced N Search --" << std::endl;
     for (int numToCheck = 1; numToCheck < 65; numToCheck+=1) {
-        foundIndex = Unrolled_Coalesced_N_Search(d_testArray, uniqueValue, numToCheck, arraySize);
+        foundIndex = Unrolled_Coalesced_N_Search(d_testArray, uniqueValue, 12, arraySize);
     }
     // Print out index of found unique value.
     std::cout << "Located unique value at index = " << foundIndex << std::endl;

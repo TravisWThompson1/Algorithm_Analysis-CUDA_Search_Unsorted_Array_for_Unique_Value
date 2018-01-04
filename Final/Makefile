@@ -24,7 +24,7 @@ NVCC_INC_DIR= -I$(CUDA_ROOT_DIR)/include
 # Make variables:
 
 # Executable name:
-EXE = Test_Search_Unique_Value
+EXE = Search_Unique_Value
 
 ##########################################################
 
@@ -34,8 +34,8 @@ EXE = Test_Search_Unique_Value
 all: $(EXE)
 
 # Compile to executable:
-$(EXE):Test_Search_Unique_Value_CUDA.cu
-	$(NVCC) -o $(EXE) Test_Search_Unique_Value_CUDA.cu
+$(EXE):Search_Unique_Value_CUDA.cu
+	$(NVCC) -o $(EXE) Search_Unique_Value_CUDA.cu
 
 # Clean objects in object directory.
 clean:
