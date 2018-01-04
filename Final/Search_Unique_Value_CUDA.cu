@@ -130,7 +130,7 @@ int main(){
     // Set random index to value to search for.
     testArray[randomIndex] = uniqueValue;
 
-    
+
     // CUDA ALLOCATIONS //
 
     // Initialize device pointers.

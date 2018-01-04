@@ -11,7 +11,7 @@ CUDA_ROOT_DIR=/usr/local/cuda
 
 # NVCC compiler options:
 NVCC=nvcc
-NVCC_FLAGS= -gencode arch=compute_30,code=sm_30
+NVCC_FLAGS=
 NVCC_LIBS=
 
 # NVCC library directory:
