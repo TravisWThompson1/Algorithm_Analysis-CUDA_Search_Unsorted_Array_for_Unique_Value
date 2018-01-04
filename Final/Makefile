@@ -35,7 +35,7 @@ all: $(EXE)
 
 # Compile to executable:
 $(EXE):Search_Unique_Value_CUDA.cu
-	$(NVCC) -o $(EXE) Search_Unique_Value_CUDA.cu
+	$(NVCC) $(NVCC_FLAGS) -o $(EXE) Search_Unique_Value_CUDA.cu
 
 # Clean objects in object directory.
 clean:
