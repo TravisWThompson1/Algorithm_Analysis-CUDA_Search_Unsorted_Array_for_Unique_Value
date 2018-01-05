@@ -177,16 +177,45 @@ __global__ void dev_Unrolled_Coalesced_N_Search(int *array, int uniqueValue, int
 
 ### Full Coalesced Search
 
+The last way we can implement the search routine is derived from a branch off of the coalesced N search method. The iterating loop in the kernel does allow each thread to search multiple indices of our array, but it also adds extra overhead in our code. The finally implementation of the search algorithm strips all of frivolous extras of the kernel away, including the iteration. 
+
+Instead, we implement the search so that each thread that is launched only searches one element (whose index matches the thread's id) before returning. This allows us to strip away as much extra machine instruction as possible, and because of this we implement the most simple solution as well. 
+
+```
+__global__ void dev_Full_Coalesced_Search(int *array, int uniqueValue, int arraySize, int *foundIndex){
+    // Calculate thread id.
+    int tid = blockDim.x * blockIdx.x + threadIdx.x;
+
+    // Retrieve current value from global memory to be checked.
+    int currentValue = array[tid];
+
+    // Check if current value is the unique value.
+    if ( currentValue == uniqueValue ) {
+        // Unique value found, store its index in the foundIndex global memory variable.
+        *foundIndex = tid;
+    }
+}
+```
+
+This type of solution is very elegant in the fact that it is about as simple as CUDA kernels can be. Sometimes, however, we find that it is better to load kernels up with a slightly higher workload, and other times it is not.
 
 
+### Which is fastest?
 
-
-
+We run a test code of all four of these implementations given in the file Test_Search_Unique_Value_CUDA.cu which is compiled with the included Makefile. For the strided, coalesced, and unrolled-coalesced implementations, we varying the number of elements each thread searchs from _1_ to _64_. In addition, run the full-coalesced implementation 64 times (not varying any parameter) to get a solid baseline. All test cases are searching an array 500,000 integers for a unique value.
 
 <img src="https://github.com/TravisWThompson1/Algorithm_Analysis-CUDA_Search_Unsorted_Array_for_Unique_Value/blob/master/Data/Algorithm_Runtime_Analysis.png" width="600">
 
+We can see that the strided test runs were by far the worst (higher runtime is worse), especially as we increase the number of the elements each thread checks, this is due to the increasing space between memory accesses.
 
+Next we see that the coalesced and unrolled coalesced implementations are the next quickest algorithms. We can see the slight edge that the _#pragma unroll_ command has in speeding up this code.
+
+Finally, we can see that the full coalesced method (one thread per element) search is consistently the fastest method (perhaps except for one small region). 
+
+While building code like this, it could be the easiest solution to use the full-coalesced method due to its simplicity in its one-thread-one-element nature. The trade off of performance compared to the other methods and its simplicity could very well make this be the best method for your code. However, to fully explore these algorithms, let us do one more test. We are interested in the regime where the full-coalesced method and the unrolled-coalesced method seem to overlap.
+
+For the final test, we set the unrolled_coalesced method's number of elements to search to the minimum runtime found in the previous plot to _k=12_, and rerun the test again 50 times.
 
 <img src="https://github.com/TravisWThompson1/Algorithm_Analysis-CUDA_Search_Unsorted_Array_for_Unique_Value/blob/master/Data/Analysis_Optimal_Unrolled_Full.png" width="600">
 
-
+From comparing the optimal parameters for the unrolled-coalesced method to the full-coalesced method we see that the unrolled method is actually the fastest method while the number elements to search is near _k=12_.
