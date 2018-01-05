@@ -183,7 +183,10 @@ __global__ void dev_Unrolled_Coalesced_N_Search(int *array, int uniqueValue, int
 
 
 
+<img src="https://github.com/TravisWThompson1/Algorithm_Analysis-CUDA_Search_Unsorted_Array_for_Unique_Value/blob/master/Data/Algorithm_Runtime_Analysis.png" width="600">
 
 
+
+<img src="https://github.com/TravisWThompson1/Algorithm_Analysis-CUDA_Search_Unsorted_Array_for_Unique_Value/blob/master/Data/Analysis_Optimal_Unrolled_Full.png" width="600">
 
 
